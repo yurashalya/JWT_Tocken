@@ -1,8 +1,13 @@
-import React from 'react'
+import React from 'react';
+
+import Login from "components/login";
 
 const MainApp = () => {
   return (
-    <div>MainApp</div>
+    <div>
+        <h1>Main Page</h1>
+        <Login />
+    </div>
   )
 }
 
