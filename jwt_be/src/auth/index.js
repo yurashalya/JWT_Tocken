@@ -5,6 +5,8 @@ const cookie = require("cookie");
 const {
     getTokens,
     refreshTokenTokenAge,
+    verifyAuthorizationMiddleware,
+    verifyRefreshTokenMiddleware,
   } = require("./utils");
 const { passwordSecret, fakeUser } = require("./data");
 
@@ -45,6 +47,23 @@ authRouter.get("/logout", (req, res) => {
     );
     res.sendStatus(200);
 });
+
+authRouter.get("/profile", verifyAuthorizationMiddleware, (req, res) => {
+    res.send("admin");
+});
+
+authRouter.get("/refresh", verifyRefreshTokenMiddleware, (req, res) => {
+    const { accessToken, refreshToken } = getTokens(req.user.login);
+  
+    res.setHeader(
+      "Set-Cookie",
+      cookie.serialize("refreshToken", refreshToken, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60,
+      })
+    );
+    res.send({ accessToken });
+  });
 
 
 module.exports = authRouter;

@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from "react-redux";
 import {IRootState, useAppDispatch} from "store";
 
-import { logoutUser } from "store/auth/actionCreators";
+import { logoutUser, getProfile } from "store/auth/actionCreators";
 import {Login } from "components";
 
 const MainApp = () => {
@@ -11,10 +11,15 @@ const MainApp = () => {
   const isLoggedIn = useSelector((state: IRootState) => 
    !!state.auth.authData.accessToken);
 
+  const profileName = useSelector(
+    (state: IRootState) => state.auth.profileData.profile
+  );
+
   const renderProfile = () => (
     <div>
-        <h3>You are logged in successfully</h3>
+        <h3>{profileName}, you are logged in successfully</h3>
         <button onClick={() => dispatch(logoutUser())}>Logout</button>
+        <button onClick={() => dispatch(getProfile())}>Update Profile</button>
     </div>
   )
   return (
