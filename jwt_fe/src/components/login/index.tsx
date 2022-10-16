@@ -1,12 +1,19 @@
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, useState } from 'react';
+import { useAppDispatch } from 'store';
+
+import {loginUser} from "store/auth/actionCreators";
 
 const LoginPage = () => {
+    const dispatch = useAppDispatch();
+
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-    }
+    
+        dispatch(loginUser({ login, password }));
+      };
 
   return (
     <div>
